@@ -192,7 +192,7 @@ class DomainWindow(QtGui.QDialog):
                     #多线程ke用于提高速度
                     if temp.save() is False:
                         i += 1
-                import_message = "totle: " + str(records.__len__()) + "failed: " + str(i-2)
+                import_message = "Total: " + str(records.__len__()) + "Failed: " + str(i-2)
                 dialog.WarningBox(self, message=import_message)
 
 
