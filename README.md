@@ -1,6 +1,10 @@
 #DNSPod域名记录读写工具
 
+#依赖
 
+python2
+模块：
+requests,pyqt4,pickle,json
 
 #运行
 python2 main.py
