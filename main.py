@@ -159,7 +159,10 @@ class DomainWindow(QtGui.QDialog):
                 fs_file = open(file_name, 'r')
                 b = pickle.loads(fs_file.read())
                 fs_file.close()
-                print b
+                if b == data:
+                    dialog.WarningBox(self, 'Export Success!', type=QtGui.QMessageBox.Information)
+                else:
+                    dialog.WarningBox(self, "Export Failed! Data doesn't match")
 
 
     def __import(self):
@@ -175,21 +178,18 @@ class DomainWindow(QtGui.QDialog):
                 dialog.WarningBox(parent=self, message=e.strerror)
             else:
                 restoredata = pickle.loads(fs_file.read())
-                print restoredata
-                if True:
-                    #判断是否继续导入
-                    records = restoredata['records']
-                    for item in records:
-                        param = item
-                        #删除id值，记录将作为一个新的记录插入到记录列表中
-                        param.pop('id')
-                        param.update({
-                            'domain_id':self.domains[current]['id']
-                        })
-                        temp = record.Record(self.user, param=param)
-                        print param
-                        #多线程ke用于提高速度
-                        temp.save()
+                records = restoredata['records']
+                for item in records:
+                    param = item
+                    #删除id值，记录将作为一个新的记录插入到记录列表中
+                    param.pop('id')
+                    param.update({
+                        'domain_id':self.domains[current]['id']
+                    })
+                    temp = record.Record(self.user, param=param)
+                    print param
+                    #多线程ke用于提高速度
+                    temp.save()
 
 
     # 菜单栏 file->add 调用此函数来增加域名

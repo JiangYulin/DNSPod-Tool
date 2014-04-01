@@ -7,9 +7,9 @@ import getTypes
 from PyQt4 import QtGui, QtCore
 
 class WarningBox(QtGui.QMessageBox):
-    def __init__(self, parent=None, message = None):
+    def __init__(self, parent=None, message = None, type = QtGui.QMessageBox.Warning):
         QtGui.QMessageBox.__init__(self, parent=parent)
-        self.setIcon(QtGui.QMessageBox.Warning)
+        self.setIcon(type)
         self.setText(message)
         self.exec_()
 
