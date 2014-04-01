@@ -179,6 +179,7 @@ class DomainWindow(QtGui.QDialog):
             else:
                 restoredata = pickle.loads(fs_file.read())
                 records = restoredata['records']
+                i = 0
                 for item in records:
                     param = item
                     #删除id值，记录将作为一个新的记录插入到记录列表中
@@ -189,7 +190,11 @@ class DomainWindow(QtGui.QDialog):
                     temp = record.Record(self.user, param=param)
                     print param
                     #多线程ke用于提高速度
-                    temp.save()
+                    if temp.save() is False:
+                        i += 1
+                import_message = "totle: " + str(records.__len__()) + "failed: " + str(i-2)
+                dialog.WarningBox(self, message=import_message)
+
 
 
     # 菜单栏 file->add 调用此函数来增加域名
