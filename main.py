@@ -31,8 +31,8 @@ class Login(QtGui.QWidget):
         gridLayout = QtGui.QGridLayout()
         labelemail = QtGui.QLabel("email")
         labelpass = QtGui.QLabel("password")
-        lineemail = QtGui.QLineEdit('jiangyulin118@gmail.com')
-        linepass = QtGui.QLineEdit('019930104')
+        lineemail = QtGui.QLineEdit('')
+        linepass = QtGui.QLineEdit('')
         linepass.setEchoMode(QtGui.QLineEdit.Password)
         buttonlogin = QtGui.QPushButton("Login")
         buttonlogin.clicked.connect(lambda: self.__login(unicode(lineemail.text()), unicode(linepass.text())))
@@ -50,10 +50,7 @@ class Login(QtGui.QWidget):
             domain = DomainWindow(user, parent = self)
             domain.show()
         else:
-            messagebox = QtGui.QMessageBox(self)
-            messagebox.setIcon(QtGui.QMessageBox.Warning)
-            messagebox.setText(user.getstatus()['message'])
-            messagebox.exec_()
+            dialog.WarningBox(parent=self, message=user.getstatus()['message'])
 
 
 
@@ -338,10 +335,7 @@ class RecordsWindow(QtGui.QDialog):
             delete_record = record.Record(self.user, new_param)
             result = delete_record.delete()
             if result is not True:
-                messagebox = QtGui.QMessageBox(self)
-                messagebox.setText(result['message'])
-                messagebox.setIcon(QtGui.QMessageBox.Warning)
-                messagebox.exec_()
+                dialog.WarningBox(parent=self, message=result['message'])
             else:
                 self.__refreshlist()
 
