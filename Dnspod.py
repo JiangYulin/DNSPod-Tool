@@ -43,7 +43,7 @@ def get_domain_records(user, domain_id):  # if success, then return data else: r
 
 def delete_domain(user, domain_id):
     new_param = user.getparam()
-    if types.IntType is not type(domain_id):
+    if types.IntType is not type(domain_id): #change
         raise Exception("ParamTypeError")
     new_param.update({
         'domain_id': domain_id
