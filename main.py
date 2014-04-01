@@ -156,13 +156,17 @@ class DomainWindow(QtGui.QDialog):
             else:
                 pickle.dump(data, fs_file)
                 fs_file.close()
-                fs_file = open(file_name, 'r')
-                b = pickle.loads(fs_file.read())
-                fs_file.close()
-                if b == data:
-                    dialog.WarningBox(self, 'Export Success!', type=QtGui.QMessageBox.Information)
+                try:
+                    fs_file = open(file_name, 'r')
+                except IOError as e:
+                    dialog.WarningBox(self, u'校验失败')
                 else:
-                    dialog.WarningBox(self, "Export Failed! Data doesn't match")
+                    b = pickle.loads(fs_file.read())
+                    fs_file.close()
+                    if b == data:
+                        dialog.WarningBox(self, 'Export Success!', type=QtGui.QMessageBox.Information)
+                    else:
+                        dialog.WarningBox(self, "Export Failed! Data doesn't match")
 
 
     def __import(self):
