@@ -177,11 +177,29 @@ class DomainWindow(QtGui.QDialog):
             except IOError as e:
                 dialog.WarningBox(parent=self, message=e.strerror)
             else:
-                restoredata = pickle.loads(fs_file.read())
+                try:
+                    restoredata = pickle.loads(fs_file.read())
+                except KeyError as e:
+                    dialog.WarningBox(self, 'you might choose wrong file', QtGui.QMessageBox.Critical)
+                    return False
                 records = restoredata['records']
                 i = 0
+                if isinstance(records, types.ListType) is False:
+                    dialog.WarningBox(self, "Input File Error")
+                    return False
+                need_keys = [
+                    'id',
+                    'line',
+                    'type',
+                    'name',
+                    'NS',
+                    'mx'
+                ]
                 for item in records:
-                    param = item
+                    for key in need_keys:
+                        if item.has_key(key) is False:
+                            dialog.WarningBox(self, 'Input File Error')
+                            return False
                     #删除id值，记录将作为一个新的记录插入到记录列表中
                     param.pop('id')
                     param.update({
